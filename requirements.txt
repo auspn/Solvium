@@ -1,0 +1,6 @@
+streamlit
+streamlit-drawable-canvas
+google-generativeai
+pillow
+numpy
+pyttsx3
