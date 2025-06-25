@@ -128,11 +128,29 @@ if "last_response" in st.session_state:
     # Download
     st.download_button("💾 Download Response", st.session_state.last_response, file_name="solvium_response.txt")
 
-    # Read aloud
-    if st.button("🔊 Read Aloud"):
-        engine = pyttsx3.init()
-        engine.say(st.session_state.last_response)
-        engine.runAndWait()
+from gtts import gTTS
+import base64
+
+# Read aloud using gTTS with download option
+if st.button("🔊 Read Aloud"):
+    try:
+        # Convert response text to speech
+        tts = gTTS(st.session_state.last_response)
+        tts.save("response.mp3")
+
+        # Read the file as bytes
+        with open("response.mp3", "rb") as audio_file:
+            audio_bytes = audio_file.read()
+            st.audio(audio_bytes, format="audio/mp3")
+
+            # Create a download button
+            b64 = base64.b64encode(audio_bytes).decode()
+            href = f'<a href="data:audio/mp3;base64,{b64}" download="solvium_response.mp3">📥 Download MP3</a>'
+            st.markdown(href, unsafe_allow_html=True)
+
+    except Exception as e:
+        st.error(f"❌ Text-to-speech failed: {e}")
+
 
 # 9. RESPONSE HISTORY
 if "history" in st.session_state:
