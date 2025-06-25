@@ -4,7 +4,6 @@ from PIL import Image
 import google.generativeai as genai
 import numpy as np
 import time
-import pyttsx3
 import io
 
 # 1. SETUP
